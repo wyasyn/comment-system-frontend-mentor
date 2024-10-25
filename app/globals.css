@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: hsl(238, 40%, 52%);
+  --danger: hsl(358, 79%, 66%);
+  --muted-danger: hsl(357, 100%, 86%);
+  --foreground: hsl(212, 24%, 26%);
+  --muted-foreground: hsl(211, 10%, 45%);
+  --background: hsl(223, 19%, 93%);
+  --btn-foreground: hsl(228, 33%, 97%);
+  --secondary: hsl(0, 0%, 100%);
+  --border: hsl(211, 10%, 45%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #fff;
+    --muted-foreground: #ededed;
+    --secondary: #1f1f1f;
+    --border: #2f2f2f;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background font-sans text-foreground text-sm;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--muted-foreground);
+}

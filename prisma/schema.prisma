@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Comment {
+  id           String               @unique @default(cuid())
+  content      String
+  userId       String
+  parentId     String?
+  parent       Comment?             @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies      Comment[]            @relation("CommentReplies")
+  interactions CommentInteraction[] @relation("CommentToInteraction") // Add the relation field here
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  @@index([userId])
+  @@index([parentId])
+}
+
+model CommentInteraction {
+  id              String          @unique @default(cuid())
+  comment         Comment         @relation("CommentToInteraction", fields: [commentId], references: [id], onDelete: Cascade) // Define the other side of the relation
+  commentId       String
+  userId          String
+  interactionType InteractionType
+  createdAt       DateTime        @default(now())
+
+  @@unique([commentId, userId]) // Prevents multiple interactions by the same user
+}
+
+enum InteractionType {
+  LIKE
+  DISLIKE
+}
